@@ -26,11 +26,20 @@
                     </div>
                 </header>
             @endif
+            @if (session('success'))
+                <div class="container mx-auto px-4">
+                    <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
+                        <strong class="font-bold">Success!</strong>
+                        <span class="block sm:inline">{{ session('success') }}</span>
+                    </div>
+                </div>
+            @endif
 
-{{--            <!-- Page Content -->--}}
-{{--            <main>--}}
-{{--                {{ $slot }}--}}
-{{--            </main>--}}
+
+            <!-- Page Content -->
+            <div class="container">
+                @yield('content')
+            </div>
         </div>
     </body>
 </html>
