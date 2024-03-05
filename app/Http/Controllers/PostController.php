@@ -29,11 +29,7 @@ class PostController extends Controller
 
     public function store(PostRequest $request)
     {
-        $post = new Post($request->only(['title', 'body']));
-        $post->user_id = auth()->id();
-        $post->save();
-
-        $post->categories()->sync($request->category_ids);
+        $this->postService->createPost($request->only(['title', 'body']), $request->category_ids);
 
         return redirect()->route('posts.index')->with('success', 'Post created successfully.');
     }
@@ -70,14 +66,7 @@ class PostController extends Controller
     {
         $this->authorize('update', $post);
 
-        $post->update([
-            'title' => $request->title,
-            'body' => $request->body,
-        ]);
-
-        if ($request->has('category_ids')) {
-            $post->categories()->sync($request->category_ids);
-        }
+        $this->postService->updatePost($post->id, $request->title, $request->body, $request->category_ids);
 
         return redirect()->route('posts.show', $post->id)->with('success', 'Post updated successfully.');
     }

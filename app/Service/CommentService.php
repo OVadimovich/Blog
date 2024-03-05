@@ -7,12 +7,14 @@ use Illuminate\Support\Facades\Auth;
 
 class CommentService
 {
-    public function addComment(string $body, string $postId): void
+    public function addComment(string $body, int $postId): void
     {
-        Comment::create([
-            'body' => $body,
-            'post_id' => $postId,
-            'user_id' => Auth::id()
-        ]);
+        Comment::create(
+            [
+                'body' => $body,
+                'post_id' => $postId,
+                'user_id' => Auth::id()
+            ]
+        );
     }
 }

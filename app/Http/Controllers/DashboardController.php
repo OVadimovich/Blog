@@ -2,20 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Post;
-use Auth;
+use App\Service\PostService;
 
 class DashboardController extends Controller
 {
+    public function __construct(private readonly PostService $postService)
+    {}
+
     public function index()
     {
-        $posts = Post::where(
-            [
-                'user_id' => Auth::id()
-            ]
-        )
-            ->orderBy('created_at', 'desc')
-            ->paginate(12);
+        $posts = $this->postService->searchByUser();
 
         return view('dashboard', ['posts' => $posts]);
     }
